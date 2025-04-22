@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node {
+int data;
+struct node* left;
+struct node* right;
+};
+struct node* createbst(struct node*, int);
+void inorder(struct node*);
+void preorder(struct node*);
+void postorder(struct node*);
+int main() {
+struct node* root = NULL;
+int ch, item, n, i;
+printf("\nBinary Search Tree Operations");
+printf("\n1. Creation of BST");
+printf("\n2. Inorder Traverse");
+printf("\n3. Preorder Traverse");
+printf("\n4. Postorder Traverse");
+printf("\n5. Exit");
+do {
+printf("\nEnter your choice: ");
+scanf("%d", &ch);
+switch(ch) {
+case 1:
+root = NULL;
+printf("\nBST for how many nodes? ");
+scanf("%d", &n);
+for(i = 0; i < n; i++) {
+printf("Enter data for node %d: ", i + 1);
+scanf("%d", &item);
+root = createbst(root, item);
+}
+printf("\nBST with %d nodes is created!\n", n);
+break;
+case 2:
+printf("\nBST Inorder Traverse: ");
+inorder(root);
+printf("\n");
+break;
+
+
+case 3:
+printf("\nBST Preorder Traverse: ");
+preorder(root);
+printf("\n");
+break;
+case 4:
+printf("\nBST Postorder Traverse: ");
+postorder(root);
+printf("\n");
+break;
+case 5:
+printf("\nTerminating\n");
+break;
+default:
+printf("\nInvalid choice\n");
+break;
+}
+} while(ch != 5);
+return 0;
+}
+struct node* createbst(struct node* root, int item) {
+if(root == NULL) {
+root = (struct node*)malloc(sizeof(struct node));
+root->left = root->right = NULL;
+root->data = item;
+} else {
+if(item < root->data)
+root->left = createbst(root->left, item);
+else if(item > root->data)
+root->right = createbst(root->right, item);
+else
+printf("\nDuplicate elements not allowed\n");
+}
+return root;
+}
+void inorder(struct node* root) {
+if(root != NULL) {
+inorder(root->left);
+printf("%d ", root->data);
+inorder(root->right);
+}
+}
+void preorder(struct node* root) {
+if(root != NULL) {
+printf("%d ", root->data);
+preorder(root->left);
+preorder(root->right);
+
+}
+}
+void postorder(struct node* root) {
+if(root != NULL) {
+postorder(root->left);
+postorder(root->right);
+printf("%d ", root->data);
+}
+}
