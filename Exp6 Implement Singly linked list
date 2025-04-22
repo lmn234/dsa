@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>  
+#include <conio.h> 
+struct Node {
+int data; 
+struct Node* next; 
+}; 
+void insert_at_end(struct Node** head_ref, int new_data) { struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));  struct Node* last = *head_ref; // Used to traverse the list 
+new_node->data = new_data;  
+new_node->next = NULL; 
+if (*head_ref ==NULL) { 
+*head_ref = new_node;  
+return; 
+} 
+while (last->next!=NULL){  
+last = last->next; 
+} 
+last->next = new_node; 
+} 
+void insert_after(struct Node* head, int after_value, int new_data)
+{ 
+struct Node* current = head;  
+struct Node* new_node; 
+while (current!=NULL&&current->data != after_value) {  current = current->next; 
+} 
+if (current == NULL) { 
+printf("Node with value %d notfound.\n", after_value);  return; 
+} 
+new_node = (struct Node*)malloc(sizeof(struct Node));  new_node->data = new_data;
+new_node->next = current->next;  
+current->next = new_node; 
+} 
+void delete_node(struct Node** head_ref, int key){  struct Node *temp = *head_ref, *prev = NULL;
+if (temp != NULL && temp->data == key) { 
+*head_ref = temp->next;  
+free(temp); 
+return; 
+} 
+while (temp != NULL&&temp->data != key) {  
+prev = temp; 
+temp = temp->next;
+} 
+if (temp == NULL) { 
+printf("Node with value %d notfound.\n", key);  return; 
+} 
+prev->next = temp->next;  
+free(temp); 
+} 
+void display_list(struct Node* node) {
+while (node != NULL) { 
+printf("%d -> ", node->data);  
+node = node->next; 
+} 
+printf("NULL\n"); 
+}
+void main() {
+struct Node* head = NULL;
+int choice, value, after_value;
+clrscr();
+while (1)
+{
+printf("\nMenu:\n");
+printf("1. Insert at end\n");
+printf("2. Insert after a specific node\n");
+printf("3. Delete a node\n");
+printf("4. Display the list\n");
+printf("5. Exit\n");
+printf("Enter your choice: ");
+scanf("%d", &choice);
+switch (choice) {
+case 1:
+printf("Enter value to insert at end: ");
+scanf("%d", &value);
+insert_at_end(&head, value);
+break;
+case 2:
+printf("Enter the node value after which to insert: ");  scanf("%d", &after_value);
+printf("Enter value to insert: ");
+scanf("%d", &value);
+insert_after(head, after_value, value);
+break;
+case 3:
+printf("Enter value to delete: ");
+scanf("%d", &value);
+delete_node(&head, value);
+break;
+case 4:
+printf("Linked list: ");
+display_list(head);
+break;
+case 5:
+printf("Exiting...\n");
+exit(0);
+break;
+default:
+printf("Invalid choice! Please try again.\n");
+}
+}
+}
+
+
